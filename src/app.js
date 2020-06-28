@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-
+const roomService = require('./services/room')
 require('./routes')(app);
 require('./db/db')();
 
