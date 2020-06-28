@@ -19,10 +19,7 @@ const isValid = (player) => {
     name: Joi.string().required().min(3).max(50),
   });
 
-  const result = schema.validate(player);
-  if (result.error)
-    return { code: 400, result: result.error.details[0].message };
-  return true;
+  return schema.validate(player);
 };
 
 module.exports = { Room: Model, isValid };
