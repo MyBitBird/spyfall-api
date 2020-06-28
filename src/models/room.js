@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const {generateCode} = require('../utils')
-const Joi = require('@hapi/joi')
+const { generateCode } = require("../utils");
+const Joi = require("@hapi/joi");
 
 const players = mongoose.Schema({
   name: { type: String, require, minlength: 3, maxlength: 50 },
@@ -9,18 +9,20 @@ const players = mongoose.Schema({
 const Model = mongoose.model(
   "rooms",
   new mongoose.Schema({
-    code: {type: String  , default: generateCode(5)},
-    players: [players]
+    code: { type: String, default: generateCode(5) },
+    players: [players],
   })
 );
 
-const validation = player =>
-{
+const isValid = (player) => {
   const schema = Joi.object({
-    name : Joi.String().require().minlength(3).maxlength(50)
-  })
+    name: Joi.string().required().min(3).max(50),
+  });
 
-  return schema.validate(player);
-}
+  const result = schema.validate(player);
+  if (result.error)
+    return { code: 400, result: result.error.details[0].message };
+  return true;
+};
 
-module.exports = {Room : Model , validation };
+module.exports = { Room: Model, isValid };
