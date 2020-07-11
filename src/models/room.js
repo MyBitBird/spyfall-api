@@ -9,7 +9,7 @@ const players = mongoose.Schema({
 const Model = mongoose.model(
   "rooms",
   new mongoose.Schema({
-    code: { type: String, default: generateCode(5) },
+    code: { type: String, default: () => generateCode(5) },
     players: [players],
   })
 );
