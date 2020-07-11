@@ -1,4 +1,4 @@
 {
-    "db" : "mongodb://localhost/spyfall",
+    "db" : "spyfall_db",
     "tokenSecretKey" : "spyfall_jwtPrivateKey"
 }
