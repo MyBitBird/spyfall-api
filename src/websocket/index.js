@@ -4,6 +4,7 @@ const socketClients = [];
 const connect = (app, PORT, callback) => {
   const server = http.createServer(app);
   const socket = require("socket.io")(server);
+  
   socket.on("connection", (socket) => {
     onConnected(socket, callback);
     socket.on("disconnect", () => {
