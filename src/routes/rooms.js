@@ -11,7 +11,11 @@ router.post("/", async (req, res) => {
     return res.status(400).send(validation.error.details[0].message);
 
   const result = await service.create(req.body);
-  res.status(200).send(mapToDto(result));
+  const player = result.players[result.players.length - 1];
+  res
+    .header("x-auth-key", player.generateToken())
+    .status(200)
+    .send(mapToDto(result));
 });
 
 router.patch("/:code", async (req, res) => {
@@ -23,12 +27,15 @@ router.patch("/:code", async (req, res) => {
   if (!room) return res.status(404).send("Room Not Found");
 
   const result = await service.join(room, req.body);
-  res.status(200).send(mapToDto(result));
+  const player = result.players[result.players.length - 1];
+  res
+    .header("x-auth-key", player.generateToken())
+    .status(200)
+    .send(mapToDto(result));
 });
 
-const mapToDto = result => {
-  const dto = _.pick(result, ["_id", "code"]);
-  return { ...dto, playerId: result.players[result.players.length - 1]._id };
+const mapToDto = (result) => {
+  return _.pick(result, ["_id", "code"]);
 };
 
 module.exports = router;
