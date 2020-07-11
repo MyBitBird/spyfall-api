@@ -1,16 +1,13 @@
 const mongoose = require("mongoose");
 const { generateCode } = require("../utils");
 const Joi = require("@hapi/joi");
-
-const players = mongoose.Schema({
-  name: { type: String, require, minlength: 3, maxlength: 50 },
-});
+const playerSchema = require("./player");
 
 const Model = mongoose.model(
   "rooms",
   new mongoose.Schema({
     code: { type: String, default: () => generateCode(5) },
-    players: [players],
+    players: [playerSchema],
   })
 );
 
