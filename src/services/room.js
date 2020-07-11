@@ -1,8 +1,10 @@
 const { Room } = require("../models/room");
+const room = require("../models/room");
 
 const create = async (player) => {
   const room = new Room({ players: [{ name: player.name }] });
   const result = await room.save();
+  console.log('room created',result)
   return result;
 };
 
@@ -16,4 +18,7 @@ const join = async (room, player) => {
   return res;
 };
 
-module.exports = { create, join , findByCode};
+const findById = async roomId => {
+  return await Room.findById(roomId);
+}
+module.exports = { create, join , findByCode , findById};
