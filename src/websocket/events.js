@@ -3,10 +3,11 @@ const roomService = require("../services/room");
 
 const EVENTS = {
   playersChanged: "playersChanged",
+  gameStarted : "gameStarted"
 };
 
 const onRoomPlayersChanged = async (roomId) => {
-        console.log('room is',await roomService.findById(roomId))
+  console.log("room is", await roomService.findById(roomId));
   send(
     roomId,
     EVENTS.playersChanged,
@@ -14,6 +15,10 @@ const onRoomPlayersChanged = async (roomId) => {
   );
 };
 
+const onGameStarted = (roomId, gameId) => {
+  send(roomId, EVENTS.gameStarted, { gameId: gameId });
+};
+
 module.exports = {
-  onRoomPlayersChanged,
+  onRoomPlayersChanged,onGameStarted
 };
