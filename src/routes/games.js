@@ -1,7 +1,12 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
+const auth = require('../midleware/auth')
 
-router.get('/' , (req , res) =>{
+router.post('/' ,auth, (req , res)=>{
+
+})
+
+router.get('/' , auth , (req , res) =>{
     res.status(200).send('games');
     
 })

@@ -1,7 +1,8 @@
 const _ = require("lodash");
 const express = require("express");
 const router = express.Router();
-const auth = require('../midleware/auth')
+const auth = require("../midleware/auth");
+const events = require("../websocket/events");
 
 const { isValid } = require("../models/room");
 const service = require("../services/room");
@@ -29,9 +30,9 @@ router.patch("/:code", async (req, res) => {
   res.status(200).send(player.generateToken(result._id));
 });
 
-router.get("/", auth , async (req, res) => {
-  const room = await service.getPlayerRoom(req.roomId , req.playerId)
-  if(!room) return res.status(400).send("Room doesn't exist")
+router.get("/", auth, async (req, res) => {
+  const room = await service.getPlayerRoom(req.roomId, req.playerId);
+  if (!room) return res.status(400).send("Room doesn't exist");
 
   return res.status(200).send(mapToDto(room));
 });
@@ -39,5 +40,11 @@ router.get("/", auth , async (req, res) => {
 const mapToDto = (result) => {
   return _.pick(result, ["_id", "code"]);
 };
+
+router.put("/leave", auth, async (req, res) => {
+  const result = await service.removePlayerFromRoom(req.roomId, req.playerId);
+  events.onRoomPlayersChanged(result._id);
+  return res.status(200).send();
+});
 
 module.exports = router;
