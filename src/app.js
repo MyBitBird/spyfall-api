@@ -17,9 +17,7 @@ require("./db/db")();
 const PORT = process.env.PORT || 5500;
 const SOCKET_PORT = process.env.socketPort || 2000;
 
-socketConnect(app, SOCKET_PORT, async (roomId) => {
-  send(roomId, events.playerJoined, (await roomService.findById(roomId)).players);
-});
+socketConnect(app, SOCKET_PORT, events.onRoomPlayersChanged);
 
 app.listen(PORT, () => {
   console.log(`${PORT} connected...`);

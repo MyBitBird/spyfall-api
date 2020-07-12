@@ -37,7 +37,9 @@ const onDisconnected = (socket) => {
 };
 
 const send = (joinId, event, data) => {
-  const clients = socketClients.filter((x) => x.roomId === joinId);
+  console.log('scoket client is' , socketClients)
+  const clients = socketClients.filter((x) => x.roomId == joinId);
+  console.log("joinId to send "+joinId, clients);
   if (!clients.length) return false;
 
   clients.forEach((client) => {
