@@ -1,5 +1,4 @@
 const { Room } = require("../models/room");
-const room = require("../models/room");
 
 const create = async (player) => {
   const room = new Room({ players: [{ name: player.name }] });
@@ -28,14 +27,18 @@ const getPlayerRoom = async (roomId, playerId) => {
   return room;
 };
 
-const removePlayerFromRoom = async (roomId , playerId) =>
-{
-   const room = await getPlayerRoom(roomId , playerId);
-   if(!room) return null;
-   room.players = room.players.filter((x) => x._id != playerId)
-   return room.save();
-   
+const removePlayerFromRoom = async (roomId, playerId) => {
+  const room = await getPlayerRoom(roomId, playerId);
+  if (!room) return null;
+  room.players = room.players.filter((x) => x._id != playerId);
+  return room.save();
+};
 
-}
-
-module.exports = { create, join, findByCode, findById,getPlayerRoom , removePlayerFromRoom };
+module.exports = {
+  create,
+  join,
+  findByCode,
+  findById,
+  getPlayerRoom,
+  removePlayerFromRoom,
+};
