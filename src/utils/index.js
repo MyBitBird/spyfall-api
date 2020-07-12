@@ -1,3 +1,5 @@
+const local = require('../local')
+
 const generateCode =  length => {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -8,4 +10,16 @@ const generateCode =  length => {
     return result;
  }
 
- module.exports = {generateCode}
+ const selectRandomLocation = () =>
+ {
+    const placeIndex = Math.floor( Math.random() * local.places.length);
+    return local.places[placeIndex];
+ }
+
+ const selectRanomSpyPlayer = (players) =>
+ {
+   const spyIndex = Math.floor( Math.random() * players.length);
+   return players[spyIndex];
+ }
+
+ module.exports = {generateCode , selectRandomLocation , selectRanomSpyPlayer}
