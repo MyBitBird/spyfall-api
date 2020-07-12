@@ -28,4 +28,14 @@ const getPlayerRoom = async (roomId, playerId) => {
   return room;
 };
 
-module.exports = { create, join, findByCode, findById,getPlayerRoom };
+const removePlayerFromRoom = async (roomId , playerId) =>
+{
+   const room = await getPlayerRoom(roomId , playerId);
+   if(!room) return null;
+   room.players = room.players.filter((x) => x._id != playerId)
+   return room.save();
+   
+
+}
+
+module.exports = { create, join, findByCode, findById,getPlayerRoom , removePlayerFromRoom };
