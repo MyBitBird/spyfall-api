@@ -27,11 +27,18 @@ const getPlayerRoom = async (roomId, playerId) => {
   return room;
 };
 
-const removePlayerFromRoom = async (roomId, playerId) => {
+const leaveRoom = async (roomId, playerId) => {
   const room = await getPlayerRoom(roomId, playerId);
   if (!room) return null;
   room.players = room.players.filter((x) => x._id != playerId);
-  return room.save();
+  return await room.save();
+};
+
+const removePlayerFromRoom = async (roomId, index) => {
+  const room = await findById(roomId);
+  if (!room) return null;
+  room.players.splice(index, 1);
+  return await room.save();
 };
 
 module.exports = {
@@ -40,5 +47,6 @@ module.exports = {
   findByCode,
   findById,
   getPlayerRoom,
+  leaveRoom,
   removePlayerFromRoom,
 };
