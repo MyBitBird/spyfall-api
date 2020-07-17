@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
   res.status(200).send(player.generateToken(result._id));
 });
 
-router.patch("/:code", async (req, res) => {
+router.put("/:code", async (req, res) => {
   const validation = isValid(req.body);
   if (validation.error)
     return res.status(400).send(validation.error.details[0].message);
@@ -33,18 +33,25 @@ router.patch("/:code", async (req, res) => {
 router.get("/", auth, async (req, res) => {
   const room = await service.getPlayerRoom(req.roomId, req.playerId);
   if (!room) return res.status(400).send("Room doesn't exist");
-
   return res.status(200).send(mapToDto(room));
+});
+
+router.patch("/leave/", auth, async (req, res) => {
+  const result = await service.leaveRoom(req.roomId, req.playerId);
+  events.onRoomPlayersChanged(result._id);
+  return res.status(200).send();
+});
+
+router.patch("/leave/:index", auth, async (req, res) => {
+  const result = await service.removePlayerFromRoom(
+    req.roomId,
+    req.params.index
+  );
+  events.onRoomPlayersChanged(result._id);
+  return res.status(200).send();
 });
 
 const mapToDto = (result) => {
   return _.pick(result, ["_id", "code"]);
 };
-
-router.put("/leave", auth, async (req, res) => {
-  const result = await service.removePlayerFromRoom(req.roomId, req.playerId);
-  events.onRoomPlayersChanged(result._id);
-  return res.status(200).send();
-});
-
 module.exports = router;
