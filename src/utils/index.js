@@ -1,4 +1,4 @@
-const local = require("../local");
+
 
 const generateCode = (length) => {
   var result = "";
@@ -10,7 +10,8 @@ const generateCode = (length) => {
   return result;
 };
 
-const selectRandomLocation = () => {
+const selectRandomLocation = (language) => {
+  const local = require(`../local/${language}`);
   const placeIndex = Math.floor(Math.random() * local.places.length);
   return local.places[placeIndex];
 };

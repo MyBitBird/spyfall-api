@@ -1,11 +1,11 @@
 const Game = require("../models/game");
 const { selectRandomLocation, selectRanomSpyPlayer } = require("../utils");
 
-const startGame = async (room) => {
+const startGame = async (room , language) => {
   const game = new Game({
     roomId: room._id,
     players: room.players.length,
-    location: selectRandomLocation(),
+    location: selectRandomLocation(language),
     spyId: selectRanomSpyPlayer(room.players),
   });
 
