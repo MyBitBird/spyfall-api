@@ -3,7 +3,7 @@ const cors = (req, res, next) => {
     res.header("Access-Control-Request-Headers");
     res.header(
       "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+      "Origin, X-Requested-With, Content-Type, Accept,Authorization,x-language"
     );
     res.header(
       "Access-Control-Allow-Methods",

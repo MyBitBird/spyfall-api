@@ -7,7 +7,6 @@ module.exports = (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, config.tokenSecretKey);
-    console.log('payload' , payload)
     req.playerId = payload._id;
     req.roomId = payload.roomId;
     next();
