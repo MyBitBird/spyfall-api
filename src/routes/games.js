@@ -16,7 +16,6 @@ router.post("/", [auth,language], async (req, res) => {
 
 router.get("/locations/",language, (req, res) => {
   const local = require(`../local/${req.language}`);
-    console.log("locations", local.places);
     return res.status(200).send(local.places);
   });
   

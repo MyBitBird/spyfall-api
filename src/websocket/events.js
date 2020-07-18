@@ -7,7 +7,6 @@ const EVENTS = {
 };
 
 const onRoomPlayersChanged = async (roomId) => {
-  console.log("room is", await roomService.findById(roomId));
   send(
     roomId,
     EVENTS.playersChanged,
